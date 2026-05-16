@@ -2,7 +2,7 @@
 #!/usr/bin/env python3
 
 import sys
-from .parser import parser
+from ..analyzer.parser import parser
 if len(sys.argv) < 2:
     print("Usage: Bugsage <python_file>")
     sys.exit(1)
