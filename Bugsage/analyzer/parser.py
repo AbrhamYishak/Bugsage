@@ -4,12 +4,12 @@ from ..database.db import search
 from ..ai.ai import GeminiSearch
 # from ..templates.format import format
 # from ..templates.format import save
-from .inspector import codetree
+# from .inspector import codetree
 def parser(filename):
     try:
         with open(filename, "r") as f:
             code = f.read()
-            codetree(code)
+            # codetree(code)
         try:
             compiled_code = compile(code, filename, "exec")
             exec(compiled_code)
@@ -25,6 +25,7 @@ def parser(filename):
                 GeminiSearch(error)
             else:
                 print("error found")
+                print(errorData)
                 # format(errorData,code)
     except Exception as e:
         print(e)
