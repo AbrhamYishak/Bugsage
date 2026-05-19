@@ -30,8 +30,6 @@ def create():
 
     case_name TEXT,
 
-    pattern TEXT NOT NULL,
-
     explanation_beginner TEXT NOT NULL,
     explanation_intermediate TEXT,
     explanation_advanced TEXT,
