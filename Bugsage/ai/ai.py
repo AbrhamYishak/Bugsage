@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 from google import genai
 load_dotenv()
 apikey = os.getenv("GEMINI_API_KEY")
-print(apikey)
 client = genai.Client(api_key = apikey)
 def GeminiSearch(error):
     response = client.models.generate_content(

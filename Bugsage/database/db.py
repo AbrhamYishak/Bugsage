@@ -61,9 +61,7 @@ def create():
     """)
     conn.commit()
     conn.close()
-
 def search(errorType, errorCase):
-    print(errorType, type(errorType))
     cursor.execute("""
     SELECT * FROM error_cases
     WHERE case_name = ?
