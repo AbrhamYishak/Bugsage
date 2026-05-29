@@ -7,6 +7,10 @@ class ErrorType(models.Model):
     generalExplanation = models.CharField()
     generalFix = models.CharField()
     docsUrl = models.CharField()
+    upVotes = models.IntegerField()
+    downVotes = models.IntegerField()
+    createdByAI = models.BooleanField()
+    
 class ErrorCase(models.Model):
     caseName = models.CharField()
     explanation = models.CharField()

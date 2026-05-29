@@ -18,7 +18,7 @@ def parser(filename,ai=False):
             # traceback.print_exc()
             error = traceback.format_exc()
             if ai:
-                GeminiSearch(error)
+                return (True,GeminiSearch(error,code))
             else:
                 formated = error.split('\n')
                 errorType = formated[-2].split(":")
@@ -26,9 +26,10 @@ def parser(filename,ai=False):
                 errorCase = errorType[1].strip()
                 errorData = search(errorName,errorCase)
                 if not errorData:
-                    found = BugsageCommunity(errorCase,errorName)
+                    found,response = BugsageCommunity(errorCase,errorName)
                     if not found:
-                        GeminiSearch(error)
+                        return (True,GeminiSearch(error,code))
+                    return (False,response)
     except Exception as e:
         print(e)
         sys.exit(1)

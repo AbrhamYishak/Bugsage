@@ -1,6 +1,5 @@
 import os
 import requests
-from .response import ResponseFromatter
 from dotenv import load_dotenv
 load_dotenv()
 backendurlErrorType = os.getenv('Bugsage_Community_URL_ErrorType')
@@ -10,6 +9,5 @@ def BugsageCommunity(errorCase,errorType):
     if not response.json():
         response = requests.get(backendurlErrorType,params={"errorType":errorType})
     if not response.json() or response.status_code != 200:
-        return False
-    ResponseFromatter(response)
-    return True
+        return (False,None)
+    return (True,response)
