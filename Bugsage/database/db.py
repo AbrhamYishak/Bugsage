@@ -75,3 +75,4 @@ def search(errorType, errorCase):
         errorType = cursor.fetchone()
         return errorType
     return errorcase
+    

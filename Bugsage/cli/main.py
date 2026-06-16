@@ -2,6 +2,7 @@ import typer
 from rich import print
 from ..analyzer.parser import parser
 from .response import ResponseFromatterBugsageCommunity,ResponseFromatterAI
+from .bugsagecommunity import Upvote,Downvote
 app = typer.Typer()  
 
 @app.command()
@@ -15,7 +16,6 @@ def main(filename: str, ai: bool = False):
         ResponseFromatterAI(result)
         typer.echo("""Rate this result:\n    [up]👍 Helpful\n    [down]👎 Not Helpful\n    [Enter] Skip""")
         vote = input("> ").strip().lower()
-        print(vote)
     else:
         Ai,result = parser(filename)
         if not Ai:
@@ -24,6 +24,10 @@ def main(filename: str, ai: bool = False):
             ResponseFromatterAI(result)
         typer.echo("""Rate this result:\n    [up]👍 Helpful\n    [down]👎 Not Helpful\n    [Enter] Skip""")
         vote = input("> ").strip().lower()
-        print(vote)
+        id = result.json()[0].get('id')
+        if vote == "up":
+            Upvote(id)
+        if vote == "down":
+            Downvote(id)
 if __name__ == "__main__":
     app()
