@@ -59,6 +59,16 @@ def create():
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS API (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    APIKey TEXT NOT NULL,
+    ModelName TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    """)   
     conn.commit()
     conn.close()
 def search(errorType, errorCase):
@@ -75,4 +85,15 @@ def search(errorType, errorCase):
         errorType = cursor.fetchone()
         return errorType
     return errorcase
-    
+def getAPIKeys():
+    cursor.execute("""
+    SELECT ModelName,APIKey FROM API
+    """)
+    APIKey = cursor.fetchall()
+    return APIKey
+def AddAPIKeys(apikey,modelname):
+    cursor.execute(
+    "INSERT INTO API (APIKey, ModelName) VALUES (?, ?)",
+    (apikey, modelname)
+    )
+    conn.commit()

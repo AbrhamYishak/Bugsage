@@ -5,57 +5,60 @@ load_dotenv()
 apikey = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key = apikey)
 def GeminiSearch(error,code):
-    response = client.models.generate_content(
-        model="gemini-3-flash-preview", contents="""
-        You are an error analysis engine for BugSage.
+    try:
+        response = client.models.generate_content(
+            model="gemini-3-flash-preview", contents="""
+            You are an error analysis engine for BugSage.
 
-        Analyze the programming error and return ONLY valid JSON.
+            Analyze the programming error and return ONLY valid JSON.
 
-        Rules:
+            Rules:
 
-        * Return only JSON
-        * No markdown
-        * No explanations outside JSON
-        * If information is unknown use null
-        * Never invent documentation URLs
-        * Severity must be one of:
-        ["LOW","MEDIUM","HIGH","CRITICAL"]
-        * Category must be one of:
-        ["SYNTAX","RUNTIME","LOGIC","NETWORK","DATABASE","AUTH","IMPORT","TYPE","MEMORY","API","UNKNOWN"]
+            * Return only JSON
+            * No markdown
+            * No explanations outside JSON
+            * If information is unknown use null
+            * Never invent documentation URLs
+            * Severity must be one of:
+            ["LOW","MEDIUM","HIGH","CRITICAL"]
+            * Category must be one of:
+            ["SYNTAX","RUNTIME","LOGIC","NETWORK","DATABASE","AUTH","IMPORT","TYPE","MEMORY","API","UNKNOWN"]
 
-        Required JSON format:
+            Required JSON format:
 
-        {
-        "errorType": {
-        "errorType": "",
-        "package": "",
-        "category": "",
-        "severity": "",
-        "generalExplanation": "",
-        "generalFix": "",
-        "docsUrl": ""
-        },
-        "errorCases": [
-        {
-        "caseName": "",
-        "explanation": "",
-        "fix": "",
-        "example": "",
-        "severity": ""
-        }
-        ]
-        }
+            {
+            "errorType": {
+            "errorType": "",
+            "package": "",
+            "category": "",
+            "severity": "",
+            "generalExplanation": "",
+            "generalFix": "",
+            "docsUrl": ""
+            },
+            "errorCases": [
+            {
+            "caseName": "",
+            "explanation": "",
+            "fix": "",
+            "example": "",
+            "severity": ""
+            }
+            ]
+            }
 
-        Analyze this error:
+            Analyze this error:
 
-        ERROR_MESSAGE_HERE
+            ERROR_MESSAGE_HERE
 
-        %s
+            %s
 
-        Optional user code:
+            Optional user code:
 
-        %s
+            %s
 
-        """%(error,code)
-    )
-    print(response.text)
+            """%(error,code)
+        )
+        return response.text
+    except Exception as e:
+        print(e)

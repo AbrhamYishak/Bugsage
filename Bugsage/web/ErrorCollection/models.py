@@ -9,6 +9,7 @@ class ErrorType(models.Model):
     docsUrl = models.CharField()
     upVotes = models.IntegerField()
     downVotes = models.IntegerField()
+    wilsonScore = models.DecimalField(decimal_places= 2,max_digits=5)
     createdByAI = models.BooleanField()
     
 class ErrorCase(models.Model):

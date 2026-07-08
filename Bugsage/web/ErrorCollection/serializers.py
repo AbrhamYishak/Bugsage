@@ -4,8 +4,6 @@ class ErrorTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ErrorType
         fields = ['id','errorType','package','category','severity','generalExplanation','generalFix','docsUrl','upVotes','downVotes','createdByAI']
-    # def validate(self,data):
-    #     if 
 class ErrorCaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ErrorCase
