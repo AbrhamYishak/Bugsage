@@ -36,7 +36,7 @@ def GeminiSearch(error,code):
             "generalFix": "",
             "docsUrl": ""
             },
-            "errorCases": [
+            "errorCases": 
             {
             "caseName": "",
             "explanation": "",
@@ -44,7 +44,6 @@ def GeminiSearch(error,code):
             "example": "",
             "severity": ""
             }
-            ]
             }
 
             Analyze this error:
@@ -59,6 +58,7 @@ def GeminiSearch(error,code):
 
             """%(error,code)
         )
-        return response.text
+        return (True,response.text)
     except Exception as e:
         print(e)
+        return (False,e.message)
