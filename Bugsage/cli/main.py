@@ -2,6 +2,7 @@ import typer
 from rich import print,console
 from ..analyzer.parser import parser
 from .response import ResponseFromatterBugsageCommunity,ResponseFromatterAI
+from .bugsagecommunity import AiToBugsageCommunity
 from .menu import apiManagementMenu
 app = typer.Typer()  
 consol = console.Console()
