@@ -19,7 +19,7 @@ def wilson_score(up, down, z=1.96):
         - z * sqrt((p*(1-p) + z*z/(4*n))/n)
     ) / (1 + z*z/n)
 class ErrorTypeView(generics.ListCreateAPIView):
-    queryset = ErrorType.objects.order_by("wilsonScore").all()
+    queryset = ErrorType.objects.order_by("-wilsonScore").all()
     serializer_class = ErrorTypeSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['errorType']
