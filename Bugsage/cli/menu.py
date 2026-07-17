@@ -10,7 +10,7 @@ def apiManagementMenu():
     choice = typer.prompt("Choice")
     if choice == "1":
         apikeys = getAPIKeys()
-        print("[bold yellow]Output format (ModelName,APIKey)[/bold yellow]")
+        print("[bold yellow]Output format (ModelName,APIKey,status)[/bold yellow]")
         for apikey in apikeys:
             print(apikey)
     elif choice == "2":

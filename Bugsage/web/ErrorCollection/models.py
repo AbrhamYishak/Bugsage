@@ -11,6 +11,8 @@ class ErrorType(models.Model):
     downVotes = models.IntegerField(default=0)
     wilsonScore = models.DecimalField(decimal_places= 2,max_digits=5,default=0)
     createdByAI = models.BooleanField(default=True)
+    AiModel = models.CharField(null=True)
+    fingerPrint = models.CharField(db_index=True)
     
 class ErrorCase(models.Model):
     caseName = models.CharField()
@@ -18,8 +20,9 @@ class ErrorCase(models.Model):
     fix = models.CharField()
     example = models.CharField()
     severity = models.CharField()
+    AiModel = models.CharField(null=True)
+    fingerPrint = models.CharField(unique=True,db_index=True)
     ErrorTypeID = models.ForeignKey(ErrorType,on_delete = models.PROTECT,related_name = "cases")
-  
     # error_type_id INTEGER NOT NULL,
 
     # case_name TEXT,

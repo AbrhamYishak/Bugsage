@@ -42,6 +42,25 @@ def downvote(request,pk):
     errorType.wilsonScore = wilson_score(errorType.upVotes,errorType.downVotes)
     errorType.save()
     return Response({"message":"Downvoted"},status = 200)
+@api_view(['GET'])
+def ErrorTypeExists(request):
+    fingerprint = request.GET.get("fingerprint")[0]
+    if not fingerprint:
+        return Response({"error": "fingerprint is required"}, status=400)
+    try:
+        errorType = ErrorType.objects.get(fingerPrint=fingerprint)
+        print(errorType)
+        return Response({"exists":True,"errorType":errorType})
+    except ErrorType.DoesNotExist:
+        return Response({"exists":False,"errorType":None})
+@api_view(['GET'])
+def ErrorCaseExists(request):
+    fingerprint = request.GET.get("fingerprint")
+    if not fingerprint:
+        return Response({"error": "fingerprint is required"}, status=400)
+    exists = ErrorCase.objects.filter(
+            fingerPrint=fingerprint).exists()
+    return Response({"exists":exists})
 # class Error(APIView):
 #     def get(self,request):
 

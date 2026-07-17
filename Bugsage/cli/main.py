@@ -14,19 +14,19 @@ def run(filename: str, ai: bool = False):
     if ai:
         print("[bold red]Ai being used[/bold red]")
         with consol.status("[bold cyan]🤖 Asking AI ... ", spinner="dots"):
-            Ai, status, result = parser(filename=filename,ai=True)
+            Ai, status, result, model_version = parser(filename=filename,ai=True)
         ResponseFromatterAI(result,status)
-        AiToBugsageCommunity(result)
+        AiToBugsageCommunity(result,model_version)
     else:
         with consol.status("Starting...", spinner="dots") as status:
             def update(message, spinner="dots"):
                 status.update(message, spinner=spinner)
-            Ai, status, result = parser(filename=filename,statusCallBack=update)
+            Ai, status, result, model_version = parser(filename=filename,statusCallBack=update)
         if not Ai:
             ResponseFromatterBugsageCommunity(result)
         else:
             AiToBugsageCommunity(result)
-            ResponseFromatterAI(result,status)
+            ResponseFromatterAI(result,status,model_version)
         
 @app.command()
 def menu():

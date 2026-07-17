@@ -18,9 +18,9 @@ def parser(filename,ai=False, statusCallBack=None):
             # traceback.print_exc()
             error = traceback.format_exc()
             if ai:
-                status,message = GeminiSearch(error,code)
+                status,message,model_version = GeminiSearch(error,code)
                 
-                return (True,status,message)
+                return (True,status,message,model_version)
             else:
                 formated = error.split('\n')
                 errorType = formated[-2].split(":")
@@ -32,9 +32,9 @@ def parser(filename,ai=False, statusCallBack=None):
                     if not found:
                         if statusCallBack:
                             statusCallBack("🤖 Asking AI ... ","dots")
-                        status,message = GeminiSearch(error,code)
-                        return (True,status,message)
-                    return (False,True,response)
+                        status,message,model_version = GeminiSearch(error,code)
+                        return (True,status,message,model_version)
+                    return (False,True,response,None)
     except Exception as e:
         print(e)
         sys.exit(1)

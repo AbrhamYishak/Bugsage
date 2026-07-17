@@ -58,7 +58,7 @@ def GeminiSearch(error,code):
 
             """%(error,code)
         )
-        return (True,response.text)
+        return (True,response.text,response.model_version)
     except Exception as e:
         print(e)
         return (False,e.message)
