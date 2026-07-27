@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
 from google import genai
+from ..database.db import getSelectedAPIKey
 load_dotenv()
-apikey = os.getenv("GEMINI_API_KEY")
+apikey = getSelectedAPIKey()
 client = genai.Client(api_key = apikey)
 def GeminiSearch(error,code):
     try:

@@ -3,6 +3,7 @@ import requests
 import json
 from dotenv import load_dotenv
 from ..utils.fingerprintgenerator import generateErrorCaseFingerprint, generateErrorTypeFingerprint
+from ..utils.similaritycheck import similaritycheck
 load_dotenv()
 backendurlErrorType = os.getenv('Bugsage_Community_URL_ErrorType')
 backendurlErrorCase = os.getenv('Bugsage_Community_URL_ErrorCase')
@@ -14,7 +15,7 @@ def BugsageCommunity(errorCase,errorType):
     response = requests.get(backendurlErrorCase,params={"caseName":errorCase})
     if not response.json()['count']:
         response = requests.get(backendurlErrorType,params={"errorType":errorType})
-    if not response.json() or response.status_code != 200:
+    if not response.json()['count'] or response.status_code != 200:
         return (False,None)
     return (True,response)
 def Upvote(id):
@@ -27,9 +28,9 @@ def checkIfErrorTypeFingerPrintExist(fingerprint):
     response = requests.get(backendurlErrorTypeExist, params={"fingerprint":fingerprint})
     print(response.json())
     if response.json()['exists']:
-        return True
+        return (True,response.json()['errorType'])
     else:
-        return False
+        return (False,None)
 def checkIfErrorCaseFingerPrintExist(fingerprint):
     response = requests.get(backendurlErrorCaseExist, params={"fingerprint":fingerprint})
     if response.json()['exists']:
@@ -40,20 +41,37 @@ def AiToBugsageCommunity(response,model_version):
     data = json.loads(response)
     errorTypes = data['errorType']
     errorTypeFingerPrint = generateErrorTypeFingerprint(errorTypes.get("errorType"),model_version)
-    if not checkIfErrorTypeFingerPrintExist(errorTypeFingerPrint):
+    fingerPrintExist,existingErrorTypes = checkIfErrorTypeFingerPrintExist(errorTypeFingerPrint)  
+    newCreated = False
+    if fingerPrintExist:
+        for existingErrorType in existingErrorTypes:
+            existingPackage = existingErrorType ['package']
+            if similaritycheck(existingPackage,errorTypes.get("package")):
+                responseErrorTypes = existingErrorType
+                break
+        else:
+            errorTypes['fingerPrint'] = errorTypeFingerPrint
+            errorTypes["AiModel"] = model_version
+            errorTypes["createdByAI"] = True
+            responseErrorTypes = requests.post(backendurlErrorType,data=errorTypes)
+            newCreated = True
+    else:
         errorTypes['fingerPrint'] = errorTypeFingerPrint
         errorTypes["AiModel"] = model_version
+        errorTypes["createdByAI"] = True
         responseErrorTypes = requests.post(backendurlErrorType,data=errorTypes)
-        print(responseErrorTypes)
+        newCreated = True
+    if newCreated:
+        errorTypeId = responseErrorTypes.json()['id']
+    else:
+        errorTypeId = responseErrorTypes['id']
     errorCases = data['errorCases']
-    errorTypeId = responseErrorTypes.json()['id']
     errorCaseFingerPrint = generateErrorCaseFingerprint(errorCases.get('errorCase'),model_version,errorTypeId)
     if not checkIfErrorCaseFingerPrintExist(errorCaseFingerPrint):
         errorCases['fingerPrint'] = errorCaseFingerPrint
         errorCases['AiModel'] = model_version
         errorCases["ErrorTypeID"] = errorTypeId
         responseErrorCases = requests.post(backendurlErrorCase,data=errorCases)
-    print(responseErrorTypes,responseErrorCases)
 def next(response):
     nextresponse = requests.get(response.json()['next'])
     return nextresponse

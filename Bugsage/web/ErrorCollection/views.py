@@ -44,13 +44,14 @@ def downvote(request,pk):
     return Response({"message":"Downvoted"},status = 200)
 @api_view(['GET'])
 def ErrorTypeExists(request):
-    fingerprint = request.GET.get("fingerprint")[0]
+    fingerprint = request.GET.get("fingerprint")
+    print(fingerprint)
     if not fingerprint:
         return Response({"error": "fingerprint is required"}, status=400)
     try:
-        errorType = ErrorType.objects.get(fingerPrint=fingerprint)
-        print(errorType)
-        return Response({"exists":True,"errorType":errorType})
+        errorType = ErrorType.objects.filter(fingerPrint=fingerprint)
+        serializedErrorType = ErrorTypeSerializer(errorType,many = True)
+        return Response({"exists":True,"errorType":serializedErrorType.data})
     except ErrorType.DoesNotExist:
         return Response({"exists":False,"errorType":None})
 @api_view(['GET'])

@@ -3,7 +3,7 @@ from rich import print,console
 from ..analyzer.parser import parser
 from .response import ResponseFromatterBugsageCommunity,ResponseFromatterAI
 from .bugsagecommunity import AiToBugsageCommunity
-from .menu import apiManagementMenu
+from .menu import apiManagementMenu,modelMenu
 app = typer.Typer()  
 consol = console.Console()
 @app.command()
@@ -25,11 +25,14 @@ def run(filename: str, ai: bool = False):
         if not Ai:
             ResponseFromatterBugsageCommunity(result)
         else:
-            AiToBugsageCommunity(result)
-            ResponseFromatterAI(result,status,model_version)
+            AiToBugsageCommunity(result,model_version)
+            ResponseFromatterAI(result,status)
         
 @app.command()
 def menu():
+    """
+
+    """
     while True:
         print("[bold green]======== Welcome To Bugsage ========[/bold green]")
         typer.echo("1. API Management")
@@ -43,13 +46,9 @@ def menu():
             apiManagementMenu()
             break
         elif choice == "2":
-            # model_menu()
-            print(2)
+            modelMenu()
             break
         elif choice == "3":
-            print(3)
-            break
-        elif choice == "4":
             break
         else:
             typer.echo("Invalid choice")
