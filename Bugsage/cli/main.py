@@ -1,9 +1,9 @@
 import typer
 from rich import print,console
-from ..analyzer.parser import parser
-from .response import ResponseFromatterBugsageCommunity,ResponseFromatterAI
-from .bugsagecommunity import AiToBugsageCommunity
-from .menu import apiManagementMenu,modelMenu
+from Bugsage.analyzer.parser import parser
+from Bugsage.cli.response import ResponseFromatterBugsageCommunity,ResponseFromatterAI
+from Bugsage.cli.bugsagecommunity import AiToBugsageCommunity
+from Bugsage.cli.menu import apiManagementMenu,modelMenu
 app = typer.Typer()  
 consol = console.Console()
 @app.command()
@@ -37,8 +37,7 @@ def menu():
         print("[bold green]======== Welcome To Bugsage ========[/bold green]")
         typer.echo("1. API Management")
         typer.echo("2. AI Models")
-        typer.echo("3. Local Storage")
-        typer.echo("4. Exit")
+        typer.echo("3. Exit")
 
         choice = typer.prompt("Choice")
 

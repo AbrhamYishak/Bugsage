@@ -2,8 +2,8 @@ import os
 import requests
 import json
 from dotenv import load_dotenv
-from ..utils.fingerprintgenerator import generateErrorCaseFingerprint, generateErrorTypeFingerprint
-from ..utils.similaritycheck import similaritycheck
+from Bugsage.utils.fingerprintgenerator import generateErrorCaseFingerprint, generateErrorTypeFingerprint
+from Bugsage.utils.similaritycheck import similaritycheck
 load_dotenv()
 backendurlErrorType = os.getenv('Bugsage_Community_URL_ErrorType')
 backendurlErrorCase = os.getenv('Bugsage_Community_URL_ErrorCase')

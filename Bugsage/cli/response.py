@@ -1,5 +1,5 @@
 from rich import print
-from .bugsagecommunity import Upvote,Downvote,AiToBugsageCommunity,next,prev
+from Bugsage.cli.bugsagecommunity import Upvote,Downvote,AiToBugsageCommunity,next,prev
 import typer
 def ResponseFromatterBugsageCommunity(response):
     responseCode = response.status_code

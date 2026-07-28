@@ -1,8 +1,8 @@
 import traceback
 import sys
-from ..database.db import search
-from ..ai.ai import GeminiSearch
-from ..cli.bugsagecommunity import BugsageCommunity
+from Bugsage.database.db import search
+from Bugsage.ai.ai import GeminiSearch
+from Bugsage.cli.bugsagecommunity import BugsageCommunity
 # from ..templates.format import format
 # from ..templates.format import save
 # from .inspector import codetree
