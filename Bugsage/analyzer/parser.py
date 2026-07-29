@@ -10,12 +10,10 @@ def parser(filename,ai=False, statusCallBack=None):
     try:
         with open(filename, "r") as f:
             code = f.read()
-            # codetree(code)
         try:
             compiled_code = compile(code, filename, "exec")
             exec(compiled_code)
         except Exception:
-            # traceback.print_exc()
             error = traceback.format_exc()
             if ai:
                 status,message,model_version = GeminiSearch(error,code)

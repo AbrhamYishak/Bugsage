@@ -6,7 +6,6 @@ from .serializers import ErrorCaseSerializer, ErrorTypeSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from math import sqrt
-# from rest_framwork.views import APIView
 def wilson_score(up, down, z=1.96):
     n = up + down
     if n == 0:

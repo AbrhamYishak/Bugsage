@@ -26,7 +26,6 @@ def Downvote(id):
     return response.json()
 def checkIfErrorTypeFingerPrintExist(fingerprint):
     response = requests.get(backendurlErrorTypeExist, params={"fingerprint":fingerprint})
-    print(response.json())
     if response.json()['exists']:
         return (True,response.json()['errorType'])
     else:
