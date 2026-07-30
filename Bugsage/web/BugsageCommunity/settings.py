@@ -11,7 +11,15 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
+Dbname = os.getenv("Bugsage_Community_DatabaseName")
+Dbpassword = os.getenv("Bugsage_Community_DatabasePassword")
+Dbhost = os.getenv("Bugsage_Community_DatabaseHost")
+DbPort = os.getenv("Bugsage_Community_DatabasePort")
+DbUser = os.getenv("Bugsage_Community_DatabaseUser")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,9 +83,13 @@ WSGI_APPLICATION = 'BugsageCommunity.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": Dbname,
+        "USER": DbUser,
+        "PASSWORD": Dbpassword,
+        "HOST": Dbhost,
+        "PORT": DbPort,
     }
 }
 

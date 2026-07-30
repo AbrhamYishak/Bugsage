@@ -1,8 +1,6 @@
 import os
-from dotenv import load_dotenv
 from google import genai
 from Bugsage.database.db import getSelectedAPIKey
-load_dotenv()
 apikey = getSelectedAPIKey()
 client = genai.Client(api_key = apikey)
 def GeminiSearch(error,code):
