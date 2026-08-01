@@ -1,7 +1,7 @@
 import traceback
 import sys
 from Bugsage.database.db import search
-from Bugsage.ai.ai import GeminiSearch
+from Bugsage.ai.gemini import GeminiSearch
 from Bugsage.cli.bugsagecommunity import BugsageCommunity
 # from ..templates.format import format
 # from ..templates.format import save
