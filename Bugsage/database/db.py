@@ -241,3 +241,12 @@ def getSelectedAPIKey():
     """)
     result = cursor.fetchone()
     return result[0] if result else None
+def getSelectedModel():
+    cursor.execute("""
+        SELECT AiMODEL.ModelName
+        FROM CurrentSelection
+        JOIN AiMODEL
+        ON CurrentSelection.model_id = AiMODEl.id
+    """)
+    result = cursor.fetchone()
+    return result[0] if result else None

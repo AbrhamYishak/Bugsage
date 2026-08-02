@@ -1,6 +1,6 @@
 import requests
 from Bugsage.database.db import getSelectedAPIKey
-api_key = getSelectedAPIKey
+api_key = getSelectedAPIKey()
 
 headers = {
     "Authorization": f"Bearer {api_key}",
@@ -58,10 +58,13 @@ def grok(error,code):
     "model": "grok-4.5",
     "input": prompt
 }
-    response = requests.post(
-        "https://api.x.ai/v1/responses",
-        headers=headers,
-        json=data,
-    )
-
-    print(response.json())
+    try:
+        response = requests.post(
+            "https://api.x.ai/v1/responses",
+            headers=headers,
+            json=data,
+        )
+        print(response.json())
+        return (True,response.json(),"grok-4.5")
+    except Exception as e:
+        return (False,e.message)

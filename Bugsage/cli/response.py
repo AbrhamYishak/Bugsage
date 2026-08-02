@@ -1,5 +1,6 @@
 from rich import print
-from Bugsage.cli.bugsagecommunity import Upvote,Downvote,AiToBugsageCommunity,next,prev
+from Bugsage.cli.bugsagecommunity import Upvote,Downvote,next,prev
+from Bugsage.templates.reponse import formatResponse
 import typer
 def ResponseFromatterBugsageCommunity(response):
     responseCode = response.status_code
@@ -7,7 +8,7 @@ def ResponseFromatterBugsageCommunity(response):
     prevpresent = response.json()['previous']
     if responseCode== 200:
         print("[bold green]Successful [/bold green]")  
-        print(responseResults)
+        formatResponse(responseResults)
     typer.echo(f"""Rate this result:\n    [u]👍 Helpful\n    [d]👎 Not Helpful\n    [n] Next Response\n    {"[p] Previous Response\n    " if prevpresent else ""}[Enter] Skip""")
     vote = input("> ").strip().lower()
     id = response.json()['results'][0].get('id')

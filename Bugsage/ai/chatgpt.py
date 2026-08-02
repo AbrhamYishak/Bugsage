@@ -49,10 +49,12 @@ def chatgpt(error, code):
 
     {code}
     """
+    try:
+        response = client.responses.create(
+            model="gpt-5.6",
+            input=prompt,
+        )
 
-    response = client.responses.create(
-        model="gpt-5.6",
-        input=prompt,
-    )
-
-    return response.output_text
+        return (True,response.output_text,"gpt-5.6")
+    except Exception as e:
+        return (False,e.message)

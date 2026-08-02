@@ -1,7 +1,7 @@
 import traceback
 import sys
 from Bugsage.database.db import search
-from Bugsage.ai.gemini import GeminiSearch
+from Bugsage.ai.ai import aiSearch
 from Bugsage.cli.bugsagecommunity import BugsageCommunity
 # from ..templates.format import format
 # from ..templates.format import save
@@ -16,7 +16,7 @@ def parser(filename,ai=False, statusCallBack=None):
         except Exception:
             error = traceback.format_exc()
             if ai:
-                status,message,model_version = GeminiSearch(error,code)
+                status,message,model_version = aiSearch(error,code)
                 
                 return (True,status,message,model_version)
             else:
@@ -30,7 +30,7 @@ def parser(filename,ai=False, statusCallBack=None):
                     if not found:
                         if statusCallBack:
                             statusCallBack("🤖 Asking AI ... ","dots")
-                        status,message,model_version = GeminiSearch(error,code)
+                        status,message,model_version = aiSearch(error,code)
                         return (True,status,message,model_version)
                     return (False,True,response,None)
     except Exception as e:

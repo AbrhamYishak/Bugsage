@@ -1,9 +1,8 @@
-import os
 from google import genai
 from Bugsage.database.db import getSelectedAPIKey
 apikey = getSelectedAPIKey()
 client = genai.Client(api_key = apikey)
-def GeminiSearch(error,code):
+def gemini(error,code):
     try:
         response = client.models.generate_content(
             model="gemini-3-flash-preview", contents="""
