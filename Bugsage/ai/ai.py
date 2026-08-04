@@ -4,7 +4,6 @@ from Bugsage.ai.chatgpt import chatgpt
 from Bugsage.ai.grok import grok
 def aiSearch(error,code):
     model = getSelectedModel()
-    print(model)
     if model == "Gemini":
         return gemini(error,code)
     elif model == "Chatgpt":

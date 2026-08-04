@@ -4,6 +4,7 @@ import json
 from dotenv import load_dotenv
 from Bugsage.utils.fingerprintgenerator import generateErrorCaseFingerprint, generateErrorTypeFingerprint
 from Bugsage.utils.similaritycheck import similaritycheck
+from Bugsage.exceptions import NextPageError, PrevPageError, NoInternetError
 load_dotenv()
 backendurlErrorType = os.getenv('Bugsage_Community_URL_ErrorType')
 backendurlErrorCase = os.getenv('Bugsage_Community_URL_ErrorCase')
@@ -12,30 +13,45 @@ backendurlDownvote = os.getenv('Bugsage_Community_URL_Downvote')
 backendurlErrorTypeExist = os.getenv('Bugsage_Community_URL_ErrorTypeExists')
 backendurlErrorCaseExist = os.getenv('Bugsage_Community_URL_ErrorCaseExists')
 def BugsageCommunity(errorCase,errorType):
-    response = requests.get(backendurlErrorCase,params={"caseName":errorCase})
-    if not response.json()['count']:
-        response = requests.get(backendurlErrorType,params={"errorType":errorType})
-    if not response.json()['count'] or response.status_code != 200:
-        return (False,None)
-    return (True,response)
+    try:
+        response = requests.get(backendurlErrorCase,params={"caseName":errorCase})
+        if not response.json()['count']:
+            response = requests.get(backendurlErrorType,params={"errorType":errorType})
+        if not response.json()['count'] or response.status_code != 200:
+            return (False,None)
+        return (True,response)
+    except requests.ConnectionError:
+        raise NoInternetError("No internet connection.")
 def Upvote(id):
-    response = requests.post(f"{backendurlUpvote}/{id}")
-    return response.json()
+    try:
+        response = requests.post(f"{backendurlUpvote}/{id}")
+        return response.json()
+    except requests.ConnectionError:
+        raise NoInternetError("No internet connection.")
 def Downvote(id):
-    response = requests.post(f"{backendurlDownvote}/{id}")
-    return response.json()
+    try:
+        response = requests.post(f"{backendurlDownvote}/{id}")
+        return response.json()
+    except requests.ConnectionError:
+            raise NoInternetError("No internet connection.")
 def checkIfErrorTypeFingerPrintExist(fingerprint):
-    response = requests.get(backendurlErrorTypeExist, params={"fingerprint":fingerprint})
-    if response.json()['exists']:
-        return (True,response.json()['errorType'])
-    else:
-        return (False,None)
+    try:
+        response = requests.get(backendurlErrorTypeExist, params={"fingerprint":fingerprint})
+        if response.json()['exists']:
+            return (True,response.json()['errorType'])
+        else:
+            return (False,None)
+    except requests.ConnectionError:
+            raise NoInternetError("No internet connection.")    
 def checkIfErrorCaseFingerPrintExist(fingerprint):
-    response = requests.get(backendurlErrorCaseExist, params={"fingerprint":fingerprint})
-    if response.json()['exists']:
-        return True
-    else:
-        return False
+    try:
+        response = requests.get(backendurlErrorCaseExist, params={"fingerprint":fingerprint})
+        if response.json()['exists']:
+            return True
+        else:
+            return False
+    except requests.ConnectionError:
+            raise NoInternetError("No internet connection.")       
 def AiToBugsageCommunity(response,model_version):
     data = json.loads(response)
     errorTypes = data['errorType']
@@ -72,9 +88,15 @@ def AiToBugsageCommunity(response,model_version):
         errorCases["ErrorTypeID"] = errorTypeId
         responseErrorCases = requests.post(backendurlErrorCase,data=errorCases)
 def next(response):
-    nextresponse = requests.get(response.json()['next'])
-    return nextresponse
+    nextPage = response.json()['next']
+    if nextPage:
+        nextresponse = requests.get(response.json()['next'])
+        return nextresponse
+    raise NextPageError("This is the Last Page.")
 def prev(response):
-    prevresponse = requests.get(response.json()['previous'])
-    return prevresponse
+    prevPage = response.json()['previous']
+    if prevPage:
+        prevresponse = requests.get(response.json()['previous'])
+        return prevresponse
+    raise PrevPageError("This is the Frist Page.")
 
