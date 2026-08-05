@@ -3,6 +3,7 @@ import sys
 from Bugsage.database.db import search
 from Bugsage.ai.ai import aiSearch
 from Bugsage.cli.bugsagecommunity import BugsageCommunity
+from Bugsage.exceptions import NoInternetError
 # from ..templates.format import format
 # from ..templates.format import save
 # from .inspector import codetree
@@ -26,13 +27,16 @@ def parser(filename,ai=False, statusCallBack=None):
                 errorCase = errorType[1].strip()
                 errorData = search(errorName,errorCase)
                 if not errorData:
-                    found,response = BugsageCommunity(errorCase,errorName)
-                    if not found:
-                        if statusCallBack:
-                            statusCallBack("🤖 Asking AI ... ","dots")
-                        status,message,model_version = aiSearch(error,code)
-                        return (True,status,message,model_version)
-                    return (False,True,response,None)
+                    try:
+                        found,response = BugsageCommunity(errorCase,errorName)
+                        if not found:
+                            if statusCallBack:
+                                statusCallBack("🤖 Asking AI ... ","dots")
+                            status,message,model_version = aiSearch(error,code)
+                            return (True,status,message,model_version)
+                        return (False,True,response,None)
+                    except NoInternetError as e:
+                        raise NoInternetError("No Internet Connection")
     except Exception as e:
         print(e)
         sys.exit(1)

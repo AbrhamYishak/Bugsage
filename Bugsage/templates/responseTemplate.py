@@ -27,4 +27,5 @@ def formatResponse(response):
         print(AiModel)
         print()
     print("________________________________________________")
-    # print(response)
+def formatAIResponse(reponse):
+    print(reponse.json())
