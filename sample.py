@@ -8,4 +8,6 @@
 # a = 3
 # if a > 2:
 #     print(slice)
-print(int("name"))
+# print(int("name"))
+sample = {"1":2}
+print(sample["2"])
