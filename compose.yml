@@ -1,0 +1,36 @@
+services:
+
+  backend:
+    build:
+      context: "./Bugsage Community"
+      dockerfile: Dockerfile
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - "./Bugsage Community:/app"
+
+    environment:
+      DATABASE_HOST: ${Bugsage_Community_DatabaseHost}
+      DATABASE_PORT: ${Bugsage_Community_DatabasePort}
+      DATABASE_NAME: ${Bugsage_Community_DatabaseName}
+      DATABASE_USER: ${Bugsage_Community_DatabaseUser}
+      DATABASE_PASSWORD: ${Bugsage_Community_DatabasePassword}
+
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+
+    environment:
+      POSTGRES_DB: ${Bugsage_Community_DatabaseName}
+      POSTGRES_USER: ${Bugsage_Community_DatabaseUser}
+      POSTGRES_PASSWORD: ${Bugsage_Community_DatabasePassword}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,5 +1,7 @@
 import sqlite3
-conn = sqlite3.connect("errors.db")
+from pathlib import Path
+DB_PATH = Path(__file__).resolve().parent.parent / "errors.db"
+conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 def create():
     cursor.execute("""
