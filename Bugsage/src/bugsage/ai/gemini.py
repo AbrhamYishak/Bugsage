@@ -1,5 +1,5 @@
 from google import genai
-from Bugsage.database.db import getSelectedAPIKey
+from bugsage.database.db import getSelectedAPIKey
 apikey = getSelectedAPIKey()
 client = genai.Client(api_key = apikey)
 def gemini(error,code):

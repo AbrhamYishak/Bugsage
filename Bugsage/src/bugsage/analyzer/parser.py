@@ -1,9 +1,9 @@
 import traceback
 import sys
-from Bugsage.database.db import search
-from Bugsage.ai.ai import aiSearch
-from Bugsage.cli.bugsagecommunity import BugsageCommunity
-from Bugsage.exceptions import NoInternetError
+from bugsage.database.db import search
+from bugsage.ai.ai import aiSearch
+from bugsage.cli.bugsagecommunity import BugsageCommunity
+from bugsage.exceptions import NoInternetError
 # from ..templates.format import format
 # from ..templates.format import save
 # from .inspector import codetree

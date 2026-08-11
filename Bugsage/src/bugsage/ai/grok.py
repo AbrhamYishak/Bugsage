@@ -1,5 +1,5 @@
 import requests
-from Bugsage.database.db import getSelectedAPIKey
+from bugsage.database.db import getSelectedAPIKey
 api_key = getSelectedAPIKey()
 
 headers = {

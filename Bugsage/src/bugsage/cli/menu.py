@@ -1,5 +1,5 @@
 from rich import print
-from Bugsage.database.db import addAPIKey,getAPIKeys,removeAPIKey,updateAPIKey,selectAPIKey,addModel,getModels,removeModel,selectModel
+from bugsage.database.db import addAPIKey,getAPIKeys,removeAPIKey,updateAPIKey,selectAPIKey,addModel,getModels,removeModel,selectModel
 import typer
 def apiManagementMenu():
     print("API Management")

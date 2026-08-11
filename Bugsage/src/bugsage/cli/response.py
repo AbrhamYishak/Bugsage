@@ -1,7 +1,7 @@
 from rich import print
-from Bugsage.cli.bugsagecommunity import Upvote,Downvote,next,prev
-from Bugsage.templates.responseTemplate import formatResponse,formatAIResponse
-from Bugsage.exceptions import NextPageError, PrevPageError
+from bugsage.cli.bugsagecommunity import Upvote,Downvote,next,prev
+from bugsage.templates.responseTemplate import formatResponse,formatAIResponse
+from bugsage.exceptions import NextPageError, PrevPageError
 import typer
 def ResponseFromatterBugsageCommunity(response):
     responseCode = response.status_code

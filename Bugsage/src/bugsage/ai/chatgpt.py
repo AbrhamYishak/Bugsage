@@ -1,5 +1,5 @@
 from openai import OpenAI
-from Bugsage.database.db import getSelectedAPIKey
+from bugsage.database.db import getSelectedAPIKey
 apikey = getSelectedAPIKey()
 client = OpenAI(api_key = apikey)
 

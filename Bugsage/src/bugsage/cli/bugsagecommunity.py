@@ -1,9 +1,9 @@
 import os
 import requests
 import json
-from Bugsage.utils.fingerprintgenerator import generateErrorCaseFingerprint, generateErrorTypeFingerprint
-from Bugsage.utils.similaritycheck import similaritycheck
-from Bugsage.exceptions import NextPageError, PrevPageError, NoInternetError
+from bugsage.utils.fingerprintgenerator import generateErrorCaseFingerprint, generateErrorTypeFingerprint
+from bugsage.utils.similaritycheck import similaritycheck
+from bugsage.exceptions import NextPageError, PrevPageError, NoInternetError
 baseUrl = "http://localhost:8000/api"
 backendurlErrorType = f"{baseUrl}/errortype"
 backendurlErrorCase = f"{baseUrl}/errorcase"

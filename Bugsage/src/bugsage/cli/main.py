@@ -1,9 +1,9 @@
 import typer
 from rich import print,console
-from Bugsage.analyzer.parser import parser
-from Bugsage.cli.response import ResponseFromatterBugsageCommunity,ResponseFromatterAI
-from Bugsage.cli.bugsagecommunity import AiToBugsageCommunity
-from Bugsage.cli.menu import apiManagementMenu,modelMenu
+from bugsage.analyzer.parser import parser
+from bugsage.cli.response import ResponseFromatterBugsageCommunity,ResponseFromatterAI
+from bugsage.cli.bugsagecommunity import AiToBugsageCommunity
+from bugsage.cli.menu import apiManagementMenu,modelMenu
 app = typer.Typer()  
 consol = console.Console()
 @app.command()

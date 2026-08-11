@@ -18,8 +18,8 @@ src/bugsage/cli/bugsagecommunity.py
 src/bugsage/cli/main.py
 src/bugsage/cli/menu.py
 src/bugsage/cli/response.py
+src/bugsage/database/db.py
 src/bugsage/templates/responseTemplate.py
-src/bugsage/templates/database/db.py
 src/bugsage/utils/fingerprintgenerator.py
 src/bugsage/utils/similaritycheck.py
 tests/test_utils.py
