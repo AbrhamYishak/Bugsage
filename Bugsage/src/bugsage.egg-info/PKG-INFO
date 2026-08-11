@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: bugsage
+Version: 0.1.0
+Summary: AI-powered Python error analysis CLI
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: typer
+Requires-Dist: requests
+Requires-Dist: openai
+Requires-Dist: rich
+Requires-Dist: google-genai

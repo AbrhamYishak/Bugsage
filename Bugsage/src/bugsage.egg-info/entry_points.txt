@@ -1,0 +1,2 @@
+[console_scripts]
+bugsage = bugsage.cli.main:app

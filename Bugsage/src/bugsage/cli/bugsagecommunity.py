@@ -1,17 +1,16 @@
 import os
 import requests
 import json
-from dotenv import load_dotenv
 from Bugsage.utils.fingerprintgenerator import generateErrorCaseFingerprint, generateErrorTypeFingerprint
 from Bugsage.utils.similaritycheck import similaritycheck
 from Bugsage.exceptions import NextPageError, PrevPageError, NoInternetError
-load_dotenv()
-backendurlErrorType = os.getenv('Bugsage_Community_URL_ErrorType')
-backendurlErrorCase = os.getenv('Bugsage_Community_URL_ErrorCase')
-backendurlUpvote = os.getenv('Bugsage_Community_URL_Upvote')
-backendurlDownvote = os.getenv('Bugsage_Community_URL_Downvote')
-backendurlErrorTypeExist = os.getenv('Bugsage_Community_URL_ErrorTypeExists')
-backendurlErrorCaseExist = os.getenv('Bugsage_Community_URL_ErrorCaseExists')
+baseUrl = "http://localhost:8000/api"
+backendurlErrorType = f"{baseUrl}/errortype"
+backendurlErrorCase = f"{baseUrl}/errorcase"
+backendurlUpvote = f"{baseUrl}/upvote"
+backendurlDownvote = f"{baseUrl}/downvote"
+backendurlErrorTypeExist = f"{baseUrl}/errortypeexists"
+backendurlErrorCaseExist = f"{baseUrl}/errorcaseexists"
 def BugsageCommunity(errorCase,errorType):
     try:
         response = requests.get(backendurlErrorCase,params={"caseName":errorCase})
