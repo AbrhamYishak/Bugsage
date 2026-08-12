@@ -1,6 +1,9 @@
 from openai import OpenAI
 from bugsage.database.db import getSelectedAPIKey
+from bugsage.exceptions import APIKeyError
 apikey = getSelectedAPIKey()
+if not apikey:
+    raise APIKeyError("No APiKey Found")
 client = OpenAI(api_key = apikey)
 
 def chatgpt(error, code):

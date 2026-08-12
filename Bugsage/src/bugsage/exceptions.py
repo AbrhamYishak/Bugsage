@@ -1,7 +1,7 @@
 class BugsageError(Exception):
     pass
 
-class InvalidAPIKeyError(BugsageError):
+class APIKeyError(BugsageError):
     pass
 
 class NoInternetError(BugsageError):

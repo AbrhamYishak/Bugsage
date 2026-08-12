@@ -3,7 +3,7 @@ import sys
 from bugsage.database.db import search
 from bugsage.ai.ai import aiSearch
 from bugsage.cli.bugsagecommunity import BugsageCommunity
-from bugsage.exceptions import NoInternetError
+from bugsage.exceptions import NoInternetError, APIKeyError
 # from ..templates.format import format
 # from ..templates.format import save
 # from .inspector import codetree
@@ -17,9 +17,11 @@ def parser(filename,ai=False, statusCallBack=None):
         except Exception:
             error = traceback.format_exc()
             if ai:
-                status,message,model_version = aiSearch(error,code)
-                
-                return (True,status,message,model_version)
+                try:
+                    status,message,model_version = aiSearch(error,code)
+                    return (True,status,message,model_version)
+                except APIKeyError as e:
+                    raise APIKeyError(e)
             else:
                 formated = error.split('\n')
                 errorType = formated[-2].split(":")
@@ -32,8 +34,11 @@ def parser(filename,ai=False, statusCallBack=None):
                         if not found:
                             if statusCallBack:
                                 statusCallBack("🤖 Asking AI ... ","dots")
-                            status,message,model_version = aiSearch(error,code)
-                            return (True,status,message,model_version)
+                            try:
+                                status,message,model_version = aiSearch(error,code)
+                                return (True,status,message,model_version)
+                            except APIKeyError as e:
+                                raise APIKeyError(e)
                         return (False,True,response,None)
                     except NoInternetError as e:
                         raise NoInternetError("No Internet Connection")
