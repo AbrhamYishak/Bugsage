@@ -10,18 +10,24 @@ consol = console.Console()
 def run(filename: str, ai: bool = False):
     """
     This tool use prev errors and provide explanation and possible fix
-    """
+    """,
     if ai:
         print("[bold red]Ai being used[/bold red]")
         with consol.status("[bold cyan]🤖 Asking AI ... ", spinner="dots"):
-            Ai, status, result, model_version = parser(filename=filename,ai=True)
+            try:
+                Ai, status, result, model_version = parser(filename=filename,ai=True)
+            except Exception as e:
+                print(e)
         ResponseFromatterAI(result,status)
         AiToBugsageCommunity(result,model_version)
     else:
         with consol.status("Starting...", spinner="dots") as status:
             def update(message, spinner="dots"):
                 status.update(message, spinner=spinner)
-            Ai, status, result, model_version = parser(filename=filename,statusCallBack=update)
+            try:
+                Ai, status, result, model_version = parser(filename=filename,statusCallBack=update)
+            except:
+                print(e)
         if not Ai:
             ResponseFromatterBugsageCommunity(result)
         else:
