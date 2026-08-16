@@ -1,8 +1,9 @@
 from google import genai
 from bugsage.database.db import getSelectedAPIKey
-apikey = getSelectedAPIKey()
-client = genai.Client(api_key = apikey)
+
 def gemini(error,code):
+    apikey = getSelectedAPIKey()
+    client = genai.Client(api_key = apikey)
     try:
         response = client.models.generate_content(
             model="gemini-3-flash-preview", contents="""

@@ -1,9 +1,17 @@
-import sqlite3
 from pathlib import Path
-DB_PATH = Path(__file__).resolve().parent / "errors.db"
-conn = sqlite3.connect(DB_PATH)
-cursor = conn.cursor()
+import sqlite3
+
+BUGSAGE_DIR = Path.home() / ".bugsage"
+BUGSAGE_DIR.mkdir(parents=True, exist_ok=True)
+
+DB_PATH = BUGSAGE_DIR / "errors.db"
+
+def get_connection():
+    return sqlite3.connect(DB_PATH)
 def create():
+    conn = get_connection()
+    cursor = conn.cursor()
+    print("running db")
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS error_cases (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -68,6 +76,8 @@ def create():
     conn.commit()
     # conn.close()
 def search(errorType, errorCase):
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
     SELECT * FROM error_cases
     WHERE case_name = ?
@@ -82,6 +92,8 @@ def search(errorType, errorCase):
         return errorType
     return errorcase
 def getAPIKeys():
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         SELECT API.id, API.APIKey, AiMODEL.ModelName
         FROM API
@@ -93,6 +105,8 @@ def getAPIKeys():
 
 def addAPIKey(apikey, modelname):
     # Get model id
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         SELECT id FROM AiMODEL
         WHERE ModelName = ?
@@ -114,6 +128,8 @@ def addAPIKey(apikey, modelname):
 
 
 def removeAPIKey(apikey):
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         DELETE FROM API
         WHERE APIKey = ?
@@ -123,6 +139,8 @@ def removeAPIKey(apikey):
 
 
 def updateAPIKey(old_key, new_key):
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         UPDATE API
         SET APIKey = ?
@@ -132,6 +150,8 @@ def updateAPIKey(old_key, new_key):
     conn.commit()
 
 def getModels():
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         SELECT *
         FROM AiMODEL
@@ -140,6 +160,8 @@ def getModels():
 
 
 def addModel(modelname):
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO AiMODEL(ModelName)
         VALUES (?)
@@ -149,6 +171,8 @@ def addModel(modelname):
 
 
 def removeModel(modelname):
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         DELETE FROM AiMODEL
         WHERE ModelName = ?
@@ -158,6 +182,8 @@ def removeModel(modelname):
 
 
 def updateModel(old_name, new_name):
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         UPDATE AiMODEL
         SET ModelName = ?
@@ -167,6 +193,8 @@ def updateModel(old_name, new_name):
     conn.commit()
 def selectModel(model_id):
     # Find an API for this model
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         SELECT id
         FROM API
@@ -202,6 +230,8 @@ def selectModel(model_id):
     conn.commit()
 def selectAPIKey(api_id):
     # Find which model owns this API
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         SELECT model_id
         FROM API
@@ -235,6 +265,8 @@ def selectAPIKey(api_id):
 
     conn.commit()
 def getSelectedAPIKey():
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         SELECT API.APIKey
         FROM CurrentSelection
@@ -244,6 +276,8 @@ def getSelectedAPIKey():
     result = cursor.fetchone()
     return result[0] if result else None
 def getSelectedModel():
+    conn = get_connection()
+    cursor = conn.cursor()
     cursor.execute("""
         SELECT AiMODEL.ModelName
         FROM CurrentSelection

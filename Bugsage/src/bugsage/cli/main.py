@@ -4,6 +4,9 @@ from bugsage.analyzer.parser import parser
 from bugsage.cli.response import ResponseFromatterBugsageCommunity,ResponseFromatterAI
 from bugsage.cli.bugsagecommunity import AiToBugsageCommunity
 from bugsage.cli.menu import apiManagementMenu,modelMenu
+from bugsage.database.db import create
+print("running")
+create()
 app = typer.Typer()  
 consol = console.Console()
 @app.command()

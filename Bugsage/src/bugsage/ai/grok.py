@@ -1,14 +1,13 @@
 import requests
 from bugsage.database.db import getSelectedAPIKey
-api_key = getSelectedAPIKey()
-
-headers = {
-    "Authorization": f"Bearer {api_key}",
-    "Content-Type": "application/json",
-}
-
 
 def grok(error,code):
+    api_key = getSelectedAPIKey()
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
     prompt = f"""
         You are an error analysis engine for BugSage.
     
